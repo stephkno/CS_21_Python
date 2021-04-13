@@ -9,7 +9,7 @@ n = 999999
 
 # welcome message
 print("Binary tree in Python")
-print("Demo with 999999 integers...")
+print("Demo with {} integers...".format(n))
 
 # create random list
 insert_list = [x for x in range(n)]
