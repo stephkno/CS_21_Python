@@ -5,7 +5,7 @@ import time
 
 # create tree
 tree = tree.Tree()
-n = 999999
+n = 9
 
 # welcome message
 print("Binary tree in Python")
@@ -27,7 +27,9 @@ time.sleep(3)
 for i,int in enumerate(tree.getInOrder()):
     print("Integer #{}: {}".format(i, int))
 
-# reverse tree
+quit()
+
+# reverse tree not working yet
 print("Reversing tree...")
 tree.reverseTree()
 time.sleep(3)

@@ -159,9 +159,8 @@ class Tree:
     # recursive function for reversing Tree
     # also switches tree insert/search mode
     def reverse(self, node):
-        self.reversed = not self.reversed
         if(not node):
-            return
+            return False
 
         self.swap(node)
         self.reverse(node.left)
@@ -170,6 +169,7 @@ class Tree:
 
     # function to initialize tree reversal
     def reverseTree(self):
+        self.reversed = not self.reversed
         return self.reverse(self.root)
 
     # node swap helper
