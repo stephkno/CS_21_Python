@@ -5,7 +5,7 @@ import time
 
 # create tree
 tree = tree.Tree()
-n = 9
+n = 999999
 
 # welcome message
 print("Binary tree in Python")
