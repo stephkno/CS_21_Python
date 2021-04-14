@@ -1,14 +1,17 @@
 import math
 
-def binarySearch(list, search):
+def search(list, search):
   list.sort()
   # get start index
   low = 0
-  high = list.length
-  mid
+  high = len(list)
+  mid = 0
 
-  while(list[mid] != search):
-    mid = math.floor(low + (high-low)/2)
+  while True:
+    mid = int(math.floor(low + (high-low)/2))
+
+    if(list[mid] == search):
+        return True
 
     if(low > high or low == high):
       return False
@@ -20,7 +23,3 @@ def binarySearch(list, search):
     if(search < list[mid]):
       high = mid-1
       continue
-
-
-  # item has been found
-  return True
