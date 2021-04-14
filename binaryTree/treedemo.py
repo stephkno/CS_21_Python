@@ -27,11 +27,9 @@ time.sleep(3)
 for i,int in enumerate(tree.getInOrder()):
     print("Integer #{}: {}".format(i, int))
 
-quit()
-
-# reverse tree not working yet
+# reverse tree
 print("Reversing tree...")
-tree.reverseTree()
+tree.invertTree()
 time.sleep(3)
 
 # reversed tree traversal
