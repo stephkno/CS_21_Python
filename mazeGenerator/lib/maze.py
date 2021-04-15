@@ -136,6 +136,15 @@ class Maze:
 
         return output
 
+    def toString(self):
+        output = ""
+        for unit in self.maze:
+            if unit > 9:
+                output += hex[unit]
+            else:
+                output += str(unit)
+        return output
+
     # maze unit, direction
     def knockWall(self, unit, neighbor, direction, neighborDirection):
         if self.maze[unit] - self.DIRECTIONS[direction] < 0 or self.maze[neighbor] - self.DIRECTIONS[neighborDirection] < 0:
