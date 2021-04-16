@@ -2,8 +2,9 @@ import math
 import sys
 import time
 import os
+import re
 
-class stack():
+class Stack():
     def __init__(self):
         self.stack = []
 
@@ -12,6 +13,9 @@ class stack():
 
     def pop(self):
         return self.stack.pop(0)
+
+    def clear(self):
+        self.stack = []
 
     def contains(self, item):
         return item in self.stack
@@ -86,78 +90,56 @@ class MazeSolver():
 
     # solve maze as a string of hex code
     def solve(self, maze):
-        sys.setrecursionlimit(999999)
+        print("BEGIN SEARCH")
+        # clean maze input string
         self.maze = list(maze.replace('\n',''))
+
+        # init vars
         self.n = math.floor(math.sqrt(len(maze)))
         self.x = 0
         self.y = 0
-        self.stack = stack()
-
-        if len(maze) < 1:
-            quit()
+        self.stack = Stack()
         self.entry = 0
         self.exit = len(maze)
-        prev_direction = None
-
         current_unit = self.entry
+
+        # push initial unit to stack
+        # initialize depth first search
         self.stack.push(current_unit)
         visited = []
         step = 0
 
+        # start timer
+        start = time.time()
+
         while self.stack.length() > 0:
 
-            self.maze_render(current_unit)
-            print(step)
             step+=1
             visited.append(current_unit)
             neighbors,directions = self.getNeighbors(current_unit)
-
-            time.sleep(0.01)
-            if "UP" in directions and neighbors[0] not in visited:
-                self.stack.push(current_unit)
-                current_unit = neighbors[0]
-
-            elif "RIGHT" in directions and neighbors[1] not in visited:
-                self.stack.push(current_unit)
-                current_unit = neighbors[1]
-
-            elif "DOWN" in directions and neighbors[2] not in visited:
-                self.stack.push(current_unit)
-                current_unit = neighbors[2]
-            elif "LEFT" in directions and neighbors[3] not in visited:
-                self.stack.push(current_unit)
-                current_unit = neighbors[3]
-
+            for i,direction in enumerate(["UP", "RIGHT", "DOWN", "LEFT"]):
+                if direction in directions and neighbors[i] not in visited:
+                    self.stack.push(current_unit)
+                    current_unit = neighbors[i]
+                    break
             else:
                 current_unit = self.stack.pop()
 
             if(len(self.maze)-1 == current_unit):
-                while self.stack.length() > 0:
-                    current_unit = self.stack.pop()
-                    self.maze_render(current_unit)
-                    time.sleep(0.01)
-                    print(step)
+                seconds = round(time.time() - start, 4)
+                if(len(self.maze) < 2):
+                    print("☹")
+                    print("SOMEBODY LET ME OUT OF HERE!!")
+                else:
+                    self.render_maze(current_unit)
+                    print("MAZE SOLVED IN {} SECONDS AFTER {} STEPS".format(seconds, step))
+                    self.stack.clear()
 
-        #while self.stack not empty
-            # visited.append(unit)
-            # paths = unit.getpaths()
-            # if neighbor_has_up and not visited:
-            #   self.stack.push(up)
-            # elif neighbor_has_right and not visited:
-            #   self.stack.push(right)
-            # elif neighbor_has_down and not visited:
-            #   self.stack.push(down)
-            # elif neighbor_has_left and not visited:
-            #   self.stack.push(left)
-            # else:
-            #   self.stack.pop()
-            #
-
-    def maze_render(self, currentUnit):
+    def render_maze(self, current_unit):
         # return maze as string
         os.system("clear")
         for i,unit in enumerate(self.maze):
-            if i == currentUnit:
+            if i == current_unit:
                 print("☺",end="")
             elif self.stack.contains(i):
                 print(self.MAZEWALLS_BOLD[unit],end="")
@@ -167,6 +149,11 @@ class MazeSolver():
                 print("")
 
     def getNeighbors(self, unit):
+        if unit > len(self.maze)-1:
+            quit()
+        if self.maze[unit] not in self.MAZEWALLS.keys():
+            print("Error - invalid maze character: {}".format(self.maze[unit]))
+            quit()
         neighbors = []
         directions = []
         for direction in ["UP", "RIGHT","DOWN","LEFT"]:
