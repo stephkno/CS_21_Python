@@ -4,24 +4,27 @@ import time
 import os
 import re
 
-class Stack:
+class Queue:
     def __init__(self):
-        self.stack = []
+        self.queue = []
 
-    def push(self, item):
-        self.stack.insert(0,item)
+    def enqueue(self, item):
+        self.queue.insert(0,item)
 
-    def pop(self):
-        return self.stack.pop(0)
+    def dequeue(self):
+        return self.queue.pop()
 
     def clear(self):
-        self.stack = []
+        self.queue = []
 
     def contains(self, item):
-        return item in self.stack
+        return item in self.queue
+
+    def toString(self):
+        return str(self.queue)
 
     def length(self):
-        return len(self.stack)
+        return len(self.queue)
 
 class MazeSolver():
     def __init__(self):
@@ -98,61 +101,49 @@ class MazeSolver():
         self.n = math.floor(math.sqrt(len(maze)))
         self.x = 0
         self.y = 0
-        self.backtrack_stack = Stack()
+        self.queue = Queue()
         self.entry = 0
         self.exit = len(maze)
         current_unit = self.entry
 
-        # push initial unit to backtrack_stack
-        # initialize depth first search
-        self.backtrack_stack.push(current_unit)
-        visited = []
+        # push initial unit to queue
+        # initialize breadth first search
+        self.queue.enqueue(current_unit)
+        # return stack
+
+        self.visited = []
         step = 0
 
         # start timer
         start = time.time()
 
-        # main loop
-        while self.backtrack_stack.length() > 0:
+        # while queue not empty
+        # current = queue.dequeue
+        # add current to visited nodes
+        # get neighbor units of current
+        # add neighbors to queue if not in visited
+        # test if win state
 
-            step+=1
-            # current unit has been visited
-            visited.append(current_unit)
-            # get valid directions from current unit
-            neighbors,directions = self.getNeighbors(current_unit)
+        while self.queue.length() > 0:
+            step += 1
 
-            # for each direction
-            # if direction valid and not previously visited
-            for i,direction in enumerate(["UP", "RIGHT", "DOWN", "LEFT"]):
-                if direction in directions and neighbors[i] not in visited:
-                    # add unit to backtrack backtrack stack
-                    # move to unit
-                    self.backtrack_stack.push(current_unit)
-                    current_unit = neighbors[i]
-                    # exit loop
-                    break
-            else:
-                # found dead end - backtrack
-                current_unit = self.backtrack_stack.pop()
+            if current_unit == len(maze)-2:
+                seconds = time.time() - start
+                self.render_maze(current_unit)
+                print("MAZE SOLVED IN {} SECONDS WITH {} STEPS".format(seconds, step))
+                self.queue.clear()
+                break
 
-            # test for win case
-            if(len(self.maze)-1 == current_unit):
-                # end timer
-                seconds = round(time.time() - start, 4)
-                # humorous message
-                if(len(self.maze) < 2):
-                    print("☹")
-                    print("SOMEBODY LET ME OUT OF HERE!!")
-                # output stats
-                else:
-                    self.render_maze(current_unit)
-                    print("MAZE SOLVED IN {} SECONDS AFTER {} STEPS".format(seconds, step))
+            current_unit = self.queue.dequeue()
+            self.visited.append(current_unit)
 
-                    # clear stack to end loop
-                    self.backtrack_stack.clear()
-                    ###################
-                    ### end program ###
-                    ###################
+            if current_unit != None:
+                neighbors, directions = self.getNeighbors(current_unit)
+
+            for neighbor in neighbors:
+                if neighbor not in self.visited and not self.queue.contains(neighbor):
+                    self.queue.enqueue(neighbor)
+
 
     # render maze as graphical ascii
     def render_maze(self, current_unit):
@@ -163,8 +154,8 @@ class MazeSolver():
             # print agent
             if i == current_unit:
                 print("☺",end="")
-            # print 
-            elif self.backtrack_stack.contains(i):
+            # print
+            elif i in self.visited:
                 print(self.MAZEWALLS_BOLD[unit],end="")
             else:
                 print(self.MAZEWALLS[unit],end="")
