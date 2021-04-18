@@ -26,6 +26,7 @@ class Queue:
     def length(self):
         return len(self.queue)
 
+
 class MazeSolver():
     def __init__(self):
         self.unit = 0
