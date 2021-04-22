@@ -128,10 +128,12 @@ class MazeSolver():
         while self.queue.length() > 0:
             step += 1
 
+            self.render_maze(current_unit)
+
             if current_unit == len(maze)-2:
                 seconds = time.time() - start
                 self.render_maze(current_unit)
-                print("MAZE SOLVED IN {} SECONDS WITH {} STEPS".format(seconds, step))
+                print("SOLVED IN {} SECONDS".format(seconds, step))
                 self.queue.clear()
                 break
 

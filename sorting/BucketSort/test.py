@@ -5,6 +5,7 @@ if sys.stdin.isatty():
     quit()
 
 list = sys.stdin.read()
-n = int(list[0])
-
-bucket_sort.sort(list[1:],n)
+list = list.split("\n")
+list.remove('')
+print("In: ", list)
+print("Out: ", bucket_sort.sort(list))

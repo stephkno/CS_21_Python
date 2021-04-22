@@ -2,12 +2,10 @@ from src import bucket_sort
 import random
 
 n = 1000000
-num_length = 8
+num_length = 100
 
 num = [0 for _ in range(num_length)]
 numlist = []
-
-print(num_length)
 
 for i in range(n):
     for n in range(num_length):
@@ -18,7 +16,4 @@ for i in range(n):
     nstring = ""
     for n in num:
         nstring += str(n)
-    numlist.append(nstring)
-
-
-print(numlist)
+    print(nstring)

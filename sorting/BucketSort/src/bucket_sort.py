@@ -1,14 +1,18 @@
 
 # sorting a list of integers length n_digits
-def sort(list, n_digits):
+def sort(list):
+    n_digits = len(list[0])
 
-    for i in range(n_digits,0):
+    for i in reversed(range(n_digits)):
         buckets = [ [] for _ in range(10) ]
 
         for number in list:
             digit = int(number[i])
-            buckets[i].append(number)
+            buckets[digit].append(number)
 
-        list.append(buckets[i] for i in range(n_digits))
+        list.clear()
+        for bucket in buckets:
+            for num in bucket:
+                list.append(num)
 
-    print(list)
+    return list
