@@ -82,6 +82,19 @@ class Tree:
 
         return True
 
+    def findMax(self):
+        currentNode = self.root
+        while not currentNode.right == None:
+            currentNode = currentNode.right
+
+        return currentNode.value
+
+    def findMin(self):
+        currentNode = self.root
+        while not currentNode.left == None:
+            currentNode = currentNode.left
+
+        return currentNode.value
 
   # find node in tree by value -> return node object
     def find(self, n):
@@ -102,7 +115,6 @@ class Tree:
 
         # did we find the number?
         return currentNode
-
 
   # test if node is in tree
     def contains(self, n):

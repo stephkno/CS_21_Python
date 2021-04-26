@@ -114,7 +114,7 @@ class MazeSolver():
 
         # main loop
         while self.backtrack_stack.length() > 0:
-
+            self.render_maze(current_unit)
             step+=1
             # current unit has been visited
             visited.append(current_unit)
@@ -163,7 +163,7 @@ class MazeSolver():
             # print agent
             if i == current_unit:
                 print("☺",end="")
-            # print 
+            # print
             elif self.backtrack_stack.contains(i):
                 print(self.MAZEWALLS_BOLD[unit],end="")
             else:
