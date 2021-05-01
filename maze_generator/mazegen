@@ -1,0 +1,20 @@
+#!/usr/bin/python3
+from lib import maze
+import argparse
+
+parser = argparse.ArgumentParser(description="Generate a random maze.")
+parser.add_argument('size', help="size of maze on one side", type=int)
+parser.add_argument('-r', help="render maze as ascii", action="store_true")
+
+args = parser.parse_args()
+
+maze = maze.Maze()
+
+if(args.size > 0):
+    maze.generate(args.size)
+
+
+if(args.r):
+    print(maze.getMazeRender())
+else:
+    print(maze.toString())

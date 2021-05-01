@@ -1,2 +1,0 @@
-#!/bin/zsh
-./mazeGenerator/mazegen $1 | ./DFSMazeSolver/main.py
