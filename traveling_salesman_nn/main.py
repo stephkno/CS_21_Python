@@ -2,10 +2,12 @@
 #
 # traveling salesman problem
 #
+# this is not quite right
+# not sure what's wrong exactly but it won't produce good results
+#
 import pygame
 import random
 import math
-
 
 class Vertex():
     def __init__(self, x, y, name):
